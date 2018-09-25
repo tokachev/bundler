@@ -240,8 +240,6 @@ module Bundler
     end
 
     def app_config_path
-      app_config = ENV["BUNDLE_APP_CONFIG"] || ".bundle"
-
       root.join(app_config)
     end
 
@@ -582,6 +580,10 @@ EOF
       yield
     ensure
       ENV.replace(backup)
+    end
+
+    def app_config
+      ENV["BUNDLE_APP_CONFIG"] || ".bundle"
     end
   end
 end
