@@ -90,12 +90,10 @@ RSpec.describe "bundle exec" do
     end
 
     if Bundler.current_ruby.ruby_2?
-      expect(out).to eq("")
+      expect(err).to eq("")
     else
-      expect(out).to eq("Ruby version #{RUBY_VERSION} defaults to keeping non-standard file descriptors on Kernel#exec.")
+      expect(err).to eq("Ruby version #{RUBY_VERSION} defaults to keeping non-standard file descriptors on Kernel#exec.")
     end
-
-    expect(err).to lack_errors
   end
 
   it "accepts --keep-file-descriptors" do
