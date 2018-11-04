@@ -1,3 +1,9 @@
+## 2.0.0.pre.1 (2018-11-04)
+
+- Dropped support for end of lifed Ruby versions 1.8.7 through 2.2
+- Dropped support for end of lifed RubyGems versions 1.3.6 through 2.5
+- Moved error messages from STDOUT to STDERR
+
 ## 1.17.1 (2018-10-25)
 
  - Convert `Pathname`s to `String`s before sorting them, fixing #6760 and #6758 ([#6761](https://github.com/bundler/bundler/pull/6761), @alexggordon)
