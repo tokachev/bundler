@@ -892,7 +892,7 @@ end
         puts (require 'bundler/setup')
       R
 
-      expect(out).to eql("true")
+      expect(out.split("\n").last).to eql("true")
     end
   end
 
