@@ -876,7 +876,7 @@ end
                 sub("Bundler::VERSION", %("#{Bundler::VERSION}"))
       gemspec = gemspec.lines.reject {|line| line =~ %r{lib/bundler/version} }.join
 
-      File.open(File.join(specifications_dir, "bundler.gemspec"), "wb") do |f|
+      File.open(File.join(specifications_dir, "bundler-#{Bundler::VERSION}.gemspec"), "wb") do |f|
         f.write(gemspec)
       end
     end
