@@ -12,6 +12,13 @@ module Gem
   end
 end
 
+if ENV.select {|k, _v| k =~ /TRAVIS/ }.any?
+  require "fileutils"
+  Dir.glob(File.join(RbConfig::CONFIG["rubylibdir"], "bundler*")).each do |file|
+    FileUtils.mv file, File.join(RbConfig::CONFIG["sitelibdir"], File.basename(file))
+  end
+end
+
 begin
   require File.expand_path("../support/path.rb", __FILE__)
   spec = Gem::Specification.load(Spec::Path.gemspec.to_s)
