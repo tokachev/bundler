@@ -12,7 +12,7 @@ module Gem
   end
 end
 
-if ENV.select {|k, _v| k =~ /TRAVIS/ }.any?
+if ENV.keys.any? { |k| k.start_with?('TRAVIS_') }
   require "fileutils"
   Dir.glob(File.join(RbConfig::CONFIG["rubylibdir"], "bundler*")).each do |file|
     FileUtils.mv file, File.join(RbConfig::CONFIG["sitelibdir"], File.basename(file))
