@@ -154,7 +154,7 @@ RSpec.describe "the lockfile format", :bundler => "2" do
     G
   end
 
-  it "outputs a warning if the current is older than lockfile's bundler version" do
+  it "outputs a warning if the current major is higher than 2 and older than lockfile's bundler version" do
     lockfile <<-L
       GEM
         remote: file://localhost#{gem_repo1}/
@@ -202,7 +202,7 @@ RSpec.describe "the lockfile format", :bundler => "2" do
     G
   end
 
-  it "errors if the current is a major version older than lockfile's bundler version" do
+  it "warns if the current major version is not higher that 2 and older than lockfile's bundler version" do
     lockfile <<-L
       GEM
         remote: file://localhost#{gem_repo1}/
@@ -225,11 +225,43 @@ RSpec.describe "the lockfile format", :bundler => "2" do
       gem "rack"
     G
 
+    warning_message = "the running version of Bundler (#{Bundler::VERSION}) is older " \
+                      "than the version that created the lockfile (9999999.0.0). " \
+                      "We suggest you to upgrade to the version that created the " \
+                      "lockfile by running `gem install bundler:9999999.0.0`."
+    expect(err).to include warning_message
+  end
+
+  it "errors if the current major version is higher that 2 and older than lockfile's bundler version" do
+    lockfile <<-L
+      GEM
+        remote: file://localhost#{gem_repo1}/
+        specs:
+          rack (1.0.0)
+
+      PLATFORMS
+        #{lockfile_platforms}
+
+      DEPENDENCIES
+        rack
+
+      BUNDLED WITH
+         9999999.0.0
+    L
+
+    simulate_bundler_version "3.0.0" do
+      install_gemfile <<-G
+        source "file://localhost#{gem_repo1}/"
+
+        gem "rack"
+      G
+    end
+
     expect(last_command).to be_failure
     expect(err).to include("You must use Bundler 9999999 or greater with this lockfile.")
   end
 
-  it "shows a friendly error when running with a new bundler 2 lockfile" do
+  it "shows a friendly error when running with a new bundler 3 lockfile" do
     lockfile <<-L
       GEM
         remote: https://rails-assets.org/
@@ -254,14 +286,16 @@ RSpec.describe "the lockfile format", :bundler => "2" do
          9999999.0.0
     L
 
-    install_gemfile <<-G
-      source 'https://rubygems.org'
-      gem 'rake'
+    simulate_bundler_version "3.0.0" do
+      install_gemfile <<-G
+        source 'https://rubygems.org'
+        gem 'rake'
 
-      source 'https://rails-assets.org' do
-        gem 'rails-assets-bootstrap'
-      end
-    G
+        source 'https://rails-assets.org' do
+          gem 'rails-assets-bootstrap'
+        end
+      G
+    end
 
     expect(last_command).to be_failure
     expect(err).to include("You must use Bundler 9999999 or greater with this lockfile.")
