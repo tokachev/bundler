@@ -539,8 +539,8 @@ module Bundler
       end
     end
 
-    # RubyGems 2.0
-    class Future < RubygemsIntegration
+    # RubyGems 2.1.0
+    class MoreFuture < RubygemsIntegration
       def stub_rubygems(specs)
         Gem::Specification.all = specs
 
@@ -612,10 +612,7 @@ module Bundler
       def path_separator
         Gem.path_separator
       end
-    end
 
-    # RubyGems 2.1.0
-    class MoreFuture < Future
       def initialize
         super
         backport_ext_builder_monitor
