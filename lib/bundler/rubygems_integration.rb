@@ -306,14 +306,6 @@ module Bundler
       end
     end
 
-    def binstubs_call_gem?
-      true
-    end
-
-    def stubs_provide_full_functionality?
-      false
-    end
-
     def replace_gem(specs, specs_by_name)
       reverse_rubygems_kernel_mixin
 
@@ -671,6 +663,14 @@ module Bundler
       # recent RG versions instead of all versions that have stubs
       def stubs_provide_full_functionality?
         true
+      end
+    else
+      def binstubs_call_gem?
+        true
+      end
+
+      def stubs_provide_full_functionality?
+        false
       end
     end
   end
