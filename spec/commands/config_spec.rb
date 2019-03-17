@@ -541,7 +541,7 @@ RSpec.describe "setting gemfile via config" do
     it "persists the gemfile location to .bundle/config" do
       expect(File.exist?(".bundle/config")).to eq(true)
 
-      bundle "config"
+      bundle "config list"
       expect(out).to include("NotGemfile")
     end
 
