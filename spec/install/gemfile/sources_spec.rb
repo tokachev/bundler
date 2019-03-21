@@ -15,7 +15,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
       end
     end
 
-    context "with multiple toplevel sources", :bundler => "< 2" do
+    context "with multiple toplevel sources" do
       let(:repo3_rack_version) { "1.0.0" }
 
       before do
@@ -27,10 +27,10 @@ RSpec.describe "bundle install with gems on multiple sources" do
         G
       end
 
-      xit "shows a deprecation" do
+      it "shows a deprecation" do
         bundle :install
 
-        expect(deprecations).to include("Your Gemfile contains multiple primary sources.")
+        expect(deprecations).to include(a_string_including("Your Gemfile contains multiple primary sources."))
       end
 
       it "warns about ambiguous gems, but installs anyway, prioritizing sources last to first" do
@@ -49,7 +49,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
       end
     end
 
-    context "when different versions of the same gem are in multiple sources", :bundler => "< 2" do
+    context "when different versions of the same gem are in multiple sources" do
       let(:repo3_rack_version) { "1.2" }
 
       before do
@@ -63,8 +63,8 @@ RSpec.describe "bundle install with gems on multiple sources" do
         bundle :install
       end
 
-      xit "shows a deprecation" do
-        expect(deprecations).to include("Your Gemfile contains multiple primary sources.")
+      it "shows a deprecation" do
+        expect(deprecations).to include(a_string_including("Your Gemfile contains multiple primary sources."))
       end
 
       it "warns about ambiguous gems, but installs anyway" do
@@ -243,7 +243,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
           end
         end
 
-        context "and in yet another source", :bundler => "< 2" do
+        context "and in yet another source" do
           before do
             gemfile <<-G
               source "file://localhost#{gem_repo1}"
@@ -256,8 +256,8 @@ RSpec.describe "bundle install with gems on multiple sources" do
             bundle :install
           end
 
-          xit "shows a deprecation" do
-            expect(deprecations).to include("Your Gemfile contains multiple primary sources.")
+          it "shows a deprecation" do
+            expect(deprecations).to include(a_string_including("Your Gemfile contains multiple primary sources."))
           end
 
           it "installs from the other source and warns about ambiguous gems" do
@@ -267,7 +267,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
           end
         end
 
-        context "and only the dependency is pinned", :bundler => "< 2" do
+        context "and only the dependency is pinned" do
           before do
             # need this to be broken to check for correct source ordering
             build_repo gem_repo2 do
@@ -626,7 +626,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
     end
   end
 
-  context "when a gem is available from multiple ambiguous sources", :bundler => "2" do
+  context "when a gem is available from multiple ambiguous sources", :bundler => "3" do
     it "raises, suggesting a source block" do
       build_repo4 do
         build_gem "depends_on_rack" do |s|
