@@ -291,6 +291,23 @@ RSpec.describe "major deprecations" do
     end
   end
 
+  context "bundle install with multiple sources" do
+    before do
+      install_gemfile <<-G
+        source "file://localhost#{gem_repo3}"
+        source "file://localhost#{gem_repo1}"
+      G
+    end
+
+    it "does not print a deprecation warning", :bundler => "< 2" do
+      expect(deprecations).to be_empty
+    end
+
+    it "shows a deprecation", :bundler => "2" do
+      expect(deprecations).to include(a_string_including("Your Gemfile contains multiple primary sources."))
+    end
+  end
+
   context "when Bundler.setup is run in a ruby script" do
     before do
       create_file "gems.rb"
