@@ -206,7 +206,7 @@ RSpec.describe "major deprecations" do
     end
   end
 
-  context "when bundle install is run" do
+  context "bundle install with both gems.rb and Gemfile present" do
     it "should not warn about gems.rb" do
       create_file "gems.rb", <<-G
         source "file://#{gem_repo1}"
@@ -217,7 +217,7 @@ RSpec.describe "major deprecations" do
       expect(deprecations).to be_empty
     end
 
-    it "should print a proper warning when both gems.rb and Gemfile present, and use Gemfile", :bundler => "< 2" do
+    it "should print a proper warning, and use Gemfile", :bundler => "< 2" do
       create_file "gems.rb"
       install_gemfile! <<-G
         source "file://#{gem_repo1}"
@@ -231,7 +231,7 @@ RSpec.describe "major deprecations" do
       expect(the_bundle).to include_gem "rack 1.0"
     end
 
-    it "should print a proper warning when both gems.rb and Gemfile present, and use gems.rb", :bundler => "2" do
+    it "should print a proper warning, and use gems.rb", :bundler => "2" do
       create_file "gems.rb"
       install_gemfile! <<-G
         source "file://#{gem_repo1}"
