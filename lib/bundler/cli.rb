@@ -282,19 +282,19 @@ module Bundler
       end
     end
 
-    if Bundler.feature_flag.list_command?
-      desc "list", "List all gems in the bundle"
-      method_option "name-only", :type => :boolean, :banner => "print only the gem names"
-      method_option "only-group", :type => :string, :banner => "print gems from a particular group"
-      method_option "without-group", :type => :string, :banner => "print all gems expect from a group"
-      method_option "paths", :type => :boolean, :banner => "print the path to each gem in the bundle"
-      def list
-        require "bundler/cli/list"
-        List.new(options).run
-      end
+    desc "list", "List all gems in the bundle"
+    method_option "name-only", :type => :boolean, :banner => "print only the gem names"
+    method_option "only-group", :type => :string, :banner => "print gems from a particular group"
+    method_option "without-group", :type => :string, :banner => "print all gems expect from a group"
+    method_option "paths", :type => :boolean, :banner => "print the path to each gem in the bundle"
+    def list
+      require "bundler/cli/list"
+      List.new(options).run
+    end
 
-      map %w[ls] => "list"
-    else
+    map %w[ls] => "list"
+
+    if Bundler.feature_flag.show_command?
       desc "show GEM [OPTIONS]", "Shows all gems that are part of the bundle, or the path to a given gem"
       long_desc <<-D
         Show lists the names and versions of all gems that are required by your Gemfile.
@@ -327,8 +327,6 @@ module Bundler
         require "bundler/cli/show"
         Show.new(options, gem_name).run
       end
-
-      map %w[list] => "show"
     end
 
     desc "info GEM [OPTIONS]", "Show information for the given gem"

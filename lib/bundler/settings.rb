@@ -40,7 +40,6 @@ module Bundler
       global_gem_cache
       ignore_messages
       init_gems_rb
-      list_command
       lockfile_uses_separate_rubygems_sources
       no_install
       no_prune
@@ -60,6 +59,7 @@ module Bundler
       unlock_source_unlocks_spec
       update_requires_all_flag
       use_gem_version_promoter_for_major_updates
+      show_command
       viz_command
     ].freeze
 

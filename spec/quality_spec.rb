@@ -176,6 +176,7 @@ RSpec.describe "The library itself" do
       inline
       lockfile_uses_separate_rubygems_sources
       use_gem_version_promoter_for_major_updates
+      show_command
       viz_command
     ]
 
